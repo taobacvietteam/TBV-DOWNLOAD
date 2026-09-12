@@ -1,0 +1,9 @@
+{
+  "name": "tbv-download",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@distube/ytdl-core": "^4.15.9",
+    "cors": "^2.8.5"
+  }
+}
