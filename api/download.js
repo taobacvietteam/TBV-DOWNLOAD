@@ -1,4 +1,5 @@
 module.exports = async (req, res) => {
+    // Cấu hình CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,32 +14,72 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Vui lòng cung cấp URL video!' });
     }
 
-    try {
-        // Gọi đến API Cobalt / Download Service để lấy stream link ổn định
-        const response = await fetch('https://co.wuk.sh/api/json', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                url: url,
-                isAudioOnly: format === 'mp3',
-                aFormat: 'mp3',
-                vQuality: '720'
-            })
-        });
+    // Danh sách các Endpoint API hỗ trợ tải media chất lượng cao
+    const API_ENDPOINTS = [
+        'https://api.cobalt.tools',
+        'https://cobalt-api.kwiatekmons.com'
+    ];
 
-        const data = await response.json();
+    let downloadUrl = null;
+    let lastError = null;
 
-        if (data && data.url) {
-            // Redirect người dùng đến đường dẫn file tải trực tiếp đã giải mã
-            return res.redirect(302, data.url);
-        } else {
-            throw new Error(data.text || 'Không thể bóc tách liên kết media.');
+    // Lặp qua các server để tìm link tải thành công
+    for (const endpoint of API_ENDPOINTS) {
+        try {
+            const response = await fetch(`${endpoint}/`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                },
+                body: JSON.stringify({
+                    url: url,
+                    downloadMode: format === 'mp3' ? 'audio' : 'auto',
+                    audioFormat: 'mp3',
+                    videoQuality: '720'
+                })
+            });
+
+            if (!response.ok) {
+                continue;
+            }
+
+            const data = await response.json();
+
+            if (data && (data.url || data.picker)) {
+                downloadUrl = data.url || (data.picker && data.picker[0] ? data.picker[0].url : null);
+                if (downloadUrl) break;
+            }
+        } catch (err) {
+            lastError = err.message;
         }
-    } catch (error) {
-        console.error('Lỗi Server:', error);
-        return res.status(500).json({ error: 'Lỗi khi xử lý video: ' + error.message });
     }
+
+    // Trả về kết quả nếu tìm thấy link stream
+    if (downloadUrl) {
+        return res.redirect(302, downloadUrl);
+    }
+
+    // Luồng dự phòng cuối cùng nếu các API Cobalt bận
+    try {
+        const fallbackRes = await fetch(`https://api.vkrdown.com/api/download?url=${encodeURIComponent(url)}`);
+        const fallbackData = await fallbackRes.json();
+        
+        if (fallbackData && fallbackData.data) {
+            const fallbackUrl = format === 'mp3' 
+                ? (fallbackData.data.audio || fallbackData.data.url) 
+                : fallbackData.data.url;
+            
+            if (fallbackUrl) {
+                return res.redirect(302, fallbackUrl);
+            }
+        }
+    } catch (e) {
+        console.error('Lỗi Fallback API:', e);
+    }
+
+    return res.status(500).json({ 
+        error: 'Không thể xử lý video vào lúc này. Vui lòng thử lại sau!' 
+    });
 };
