@@ -3,31 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TBV Download - Tải Video & Audio Đa Nền Tảng</title>
-    <!-- Tailwind CSS Play CDN (Đã fix warning) -->
+    <title>TBV Download - Tải Video & Audio Trực Tiếp</title>
+    <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            pink: '#ff007f',
-                            purple: '#7928ca',
-                            cyan: '#00dfd8'
-                        }
-                    }
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { brand: { pink: '#ff007f', purple: '#7928ca', cyan: '#00dfd8' } }
                 }
             }
         }
     </script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         .gradient-text {
@@ -38,22 +28,16 @@
         .glass-card {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .glow-btn {
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
             transition: all 0.3s ease;
         }
-        .glow-btn:hover {
-            box-shadow: 0 0 35px rgba(0, 223, 216, 0.6);
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-pink selection:text-white">
 
-    <!-- Header / Navbar -->
     <header class="w-full border-b border-white/10 glass-card sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -65,33 +49,18 @@
                     <p class="text-[10px] text-slate-400 font-semibold tracking-widest uppercase">Bản quyền thuộc Táo Bắc Việt Team</p>
                 </div>
             </div>
-            <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
-                <a href="#downloader" class="hover:text-brand-cyan transition">Tải xuống</a>
-                <a href="#supported" class="hover:text-brand-cyan transition">Nền tảng hỗ trợ</a>
-            </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12 flex-grow w-full flex flex-col items-center">
-        
-        <!-- Hero Title -->
         <div class="text-center mb-8 space-y-4">
-            <span class="px-4 py-1.5 rounded-full text-xs font-bold bg-white/5 border border-white/10 text-brand-cyan inline-flex items-center gap-2 shadow-inner">
-                <i class="fa-solid fa-bolt text-yellow-400"></i> Công cụ tải Video & MP3 đa năng
-            </span>
-            <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight">
-                Tải Video & Audio <br class="hidden sm:inline">
-                <span class="gradient-text">Siêu Tốc - Miễn Phí</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+                Tải Trực Tiếp <span class="gradient-text">Video & MP3</span>
             </h2>
-            <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
-                Hỗ trợ YouTube, TikTok, Facebook, Bilibili và nhiều nền tảng khác!
-            </p>
+            <p class="text-slate-400 text-sm">Tự động xử lý và tải file trực tiếp qua Vercel Serverless Backend</p>
         </div>
 
-        <!-- Download Form Card -->
         <div id="downloader" class="w-full glass-card p-6 md:p-8 rounded-3xl shadow-2xl relative overflow-hidden border border-white/10">
-            
             <form id="downloadForm" onsubmit="handleAnalyze(event)" class="space-y-4">
                 <div class="relative flex items-center">
                     <i class="fa-solid fa-link absolute left-4 text-slate-400 text-lg"></i>
@@ -99,109 +68,49 @@
                         type="url" 
                         id="mediaUrl" 
                         required
-                        placeholder="Dán đường dẫn (link) YouTube, TikTok, Facebook, Bilibili..." 
+                        placeholder="Dán link YouTube (ví dụ: https://www.youtube.com/watch?v=...)" 
                         class="w-full bg-slate-900/90 border border-white/10 rounded-2xl py-4 pl-12 pr-36 text-sm md:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-pink transition"
                     >
-                    <button 
-                        type="submit" 
-                        class="absolute right-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan font-bold text-white text-sm glow-btn flex items-center gap-2"
-                    >
-                        <span>Xử lý</span>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <button type="submit" class="absolute right-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-pink via-brand-purple to-brand-cyan font-bold text-white text-sm glow-btn">
+                        Phân tích
                     </button>
                 </div>
             </form>
 
-            <!-- Loading Spinner -->
-            <div id="loading" class="hidden py-12 text-center">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-brand-pink border-t-transparent"></div>
-                <p id="loadingStatus" class="mt-4 text-slate-400 font-semibold animate-pulse">Đang phân tích liên kết và tải xem trước...</p>
+            <div id="loading" class="hidden py-8 text-center space-y-3">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-brand-pink border-t-transparent"></div>
+                <p id="loadingStatus" class="text-slate-400 text-sm font-semibold animate-pulse">Đang phân tích liên kết media...</p>
             </div>
 
-            <!-- Result Section -->
             <div id="resultCard" class="hidden mt-8 pt-8 border-t border-white/10 space-y-6">
-                
-                <!-- Media Preview -->
                 <div class="flex flex-col md:flex-row gap-6 items-center bg-slate-900/60 p-4 rounded-2xl border border-white/5">
                     <div class="w-full md:w-1/2 rounded-xl overflow-hidden aspect-video bg-black flex items-center justify-center relative shadow-lg">
                         <div id="playerContainer" class="w-full h-full flex items-center justify-center"></div>
                     </div>
-                    
                     <div class="w-full md:w-1/2 space-y-3">
-                        <span id="platformBadge" class="px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-brand-pink/20 text-brand-pink border border-brand-pink/30">
-                            Nền tảng
-                        </span>
-                        <h3 id="mediaTitle" class="font-bold text-lg line-clamp-2 text-slate-100">
-                            Tiêu đề Media
-                        </h3>
-                        <p class="text-xs text-slate-400 flex items-center gap-2">
-                            <i class="fa-regular fa-clock"></i> Trạng thái: <span id="mediaDuration" class="text-brand-cyan font-semibold">Sẵn sàng</span>
-                        </p>
+                        <span id="platformBadge" class="px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-brand-pink/20 text-brand-pink border border-brand-pink/30">YouTube Media</span>
+                        <h3 id="mediaTitle" class="font-bold text-lg line-clamp-2 text-slate-100">Tiêu đề Video</h3>
                     </div>
                 </div>
 
-                <!-- Download Options -->
-                <div class="space-y-4">
-                    <h4 class="font-bold text-sm text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-download text-brand-cyan"></i> Chọn định dạng để tải về máy
-                    </h4>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Video MP4 -->
-                        <div class="space-y-2">
-                            <div class="text-xs font-semibold text-slate-400 flex items-center gap-2">
-                                <i class="fa-solid fa-video text-brand-pink"></i> Tải Video (MP4)
-                            </div>
-                            <div class="space-y-2">
-                                <button onclick="downloadMedia('mp4', '1080')" class="w-full flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-brand-pink/50 transition group">
-                                    <span class="text-sm font-semibold">Tải Video Chất Lượng Cao (MP4)</span>
-                                    <span class="text-xs px-2.5 py-1 rounded-lg bg-brand-pink text-white font-bold group-hover:scale-105 transition">Tải MP4</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Audio MP3 -->
-                        <div class="space-y-2">
-                            <div class="text-xs font-semibold text-slate-400 flex items-center gap-2">
-                                <i class="fa-solid fa-music text-brand-cyan"></i> Tải Âm thanh (MP3)
-                            </div>
-                            <div class="space-y-2">
-                                <button onclick="downloadMedia('mp3', '320')" class="w-full flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-brand-cyan/50 transition group">
-                                    <span class="text-sm font-semibold">Tách Nhạc Âm Thanh (MP3)</span>
-                                    <span class="text-xs px-2.5 py-1 rounded-lg bg-brand-cyan text-slate-950 font-bold group-hover:scale-105 transition">Tải MP3</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="directDownload('mp4')" class="flex justify-between items-center p-4 rounded-xl bg-brand-pink/10 hover:bg-brand-pink/20 border border-brand-pink/30 transition group">
+                        <span class="text-sm font-bold text-brand-pink"><i class="fa-solid fa-video mr-2"></i> Tải Video MP4 Trực Tiếp</span>
+                        <i class="fa-solid fa-download text-brand-pink group-hover:scale-110 transition"></i>
+                    </button>
+                    <button onclick="directDownload('mp3')" class="flex justify-between items-center p-4 rounded-xl bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/30 transition group">
+                        <span class="text-sm font-bold text-brand-cyan"><i class="fa-solid fa-music mr-2"></i> Tải Âm Thanh MP3 Trực Tiếp</span>
+                        <i class="fa-solid fa-download text-brand-cyan group-hover:scale-110 transition"></i>
+                    </button>
                 </div>
-
-            </div>
-
-        </div>
-
-        <!-- Supported Platforms -->
-        <div id="supported" class="mt-16 text-center space-y-6 w-full">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Nền tảng được hỗ trợ</h3>
-            <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-slate-400">
-                <div class="hover:text-red-500 transition cursor-pointer flex items-center gap-2 text-base font-bold"><i class="fa-brands fa-youtube text-2xl text-red-500"></i> YouTube</div>
-                <div class="hover:text-pink-500 transition cursor-pointer flex items-center gap-2 text-base font-bold"><i class="fa-brands fa-tiktok text-2xl text-pink-500"></i> TikTok</div>
-                <div class="hover:text-blue-500 transition cursor-pointer flex items-center gap-2 text-base font-bold"><i class="fa-brands fa-facebook text-2xl text-blue-500"></i> Facebook</div>
-                <div class="hover:text-sky-400 transition cursor-pointer flex items-center gap-2 text-base font-bold"><i class="fa-solid fa-tv text-2xl text-sky-400"></i> Bilibili</div>
             </div>
         </div>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="w-full border-t border-white/10 glass-card py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p class="text-sm text-slate-300 font-semibold">
-                © 2026 <span class="gradient-text font-bold">TBV Download</span>. Bản quyền thuộc <span class="text-brand-cyan font-bold">Táo Bắc Việt Team</span>.
-            </p>
-        </div>
+    <footer class="w-full text-center py-6 text-slate-500 text-xs border-t border-white/5">
+        &copy; 2026 TBV Download - Phát triển bởi Táo Bắc Việt Team
     </footer>
 
-    <!-- JavaScript Logic Fix -->
     <script>
         function getYouTubeId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -215,8 +124,6 @@
             const loading = document.getElementById('loading');
             const resultCard = document.getElementById('resultCard');
 
-            if (!urlInput) return;
-
             loading.classList.remove('hidden');
             resultCard.classList.add('hidden');
 
@@ -225,113 +132,32 @@
                 resultCard.classList.remove('hidden');
 
                 const playerContainer = document.getElementById('playerContainer');
-                const platformBadge = document.getElementById('platformBadge');
                 const mediaTitle = document.getElementById('mediaTitle');
-
                 const ytId = getYouTubeId(urlInput);
 
                 if (ytId) {
-                    platformBadge.innerText = 'YouTube';
-                    platformBadge.className = 'px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-red-500/20 text-red-400 border border-red-500/30';
                     mediaTitle.innerText = `YouTube Video [ID: ${ytId}]`;
-
-                    playerContainer.innerHTML = `
-                        <iframe class="w-full h-full rounded-xl" 
-                                src="https://www.youtube.com/embed/${ytId}?autoplay=1" 
-                                frameborder="0" allowfullscreen>
-                        </iframe>
-                    `;
-                } else if (urlInput.includes('tiktok.com')) {
-                    platformBadge.innerText = 'TikTok';
-                    platformBadge.className = 'px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-pink-500/20 text-pink-400 border border-pink-500/30';
-                    mediaTitle.innerText = 'TikTok Clip';
-
-                    playerContainer.innerHTML = `
-                        <div class="text-center p-4">
-                            <i class="fa-brands fa-tiktok text-5xl text-pink-500 mb-2"></i>
-                            <p class="text-xs text-slate-300 font-semibold">Đã nhận diện link TikTok!</p>
-                        </div>
-                    `;
+                    playerContainer.innerHTML = `<iframe class="w-full h-full rounded-xl" src="https://www.youtube.com/embed/${ytId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
                 } else {
-                    platformBadge.innerText = 'Media Link';
-                    platformBadge.className = 'px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30';
-                    mediaTitle.innerText = 'Nội dung Media';
-
-                    playerContainer.innerHTML = `
-                        <div class="text-center p-4">
-                            <i class="fa-solid fa-circle-play text-5xl text-brand-cyan mb-2"></i>
-                            <p class="text-xs text-slate-300 font-semibold">Đã sẵn sàng tải xuống!</p>
-                        </div>
-                    `;
+                    mediaTitle.innerText = "Nội dung Media";
+                    playerContainer.innerHTML = `<i class="fa-solid fa-circle-play text-5xl text-brand-cyan"></i>`;
                 }
-
-                resultCard.scrollIntoView({ behavior: 'smooth' });
-            }, 600);
+            }, 500);
         }
 
-        // TẢI FILE BẰNG MULTI-INSTANCE API ĐẢM BẢO KHÔNG LỖI CORS / FETCH
-        async function downloadMedia(format, quality) {
+        // HÀM GỌI ĐẾN BACKEND VERCEL ĐỂ TẢI FILE TỰ ĐỘNG
+        function directDownload(format) {
             const mediaUrl = document.getElementById('mediaUrl').value.trim();
             if (!mediaUrl) {
-                alert('Vui lòng dán link video trước!');
+                alert('Vui lòng nhập đường dẫn video!');
                 return;
             }
 
-            const loading = document.getElementById('loading');
-            const loadingStatus = document.getElementById('loadingStatus');
-            loadingStatus.innerText = `Đang kết nối Server tải file ${format.toUpperCase()}... Vui lòng đợi trong giây lát!`;
-            loading.classList.remove('hidden');
-
-            // Danh sách các Instance API công cộng hoạt động ổn định
-            const apiEndpoints = [
-                'https://co.wuk.sh/api/json',
-                'https://cobalt.api.scruffal.com/api/json',
-                'https://api.cobalt.tools/api/json'
-            ];
-
-            let success = false;
-
-            for (const endpoint of apiEndpoints) {
-                try {
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            url: mediaUrl,
-                            downloadMode: format === 'mp3' ? 'audio' : 'auto',
-                            audioFormat: 'mp3',
-                            videoQuality: quality
-                        })
-                    });
-
-                    if (!response.ok) continue;
-
-                    const data = await response.json();
-                    if (data.url) {
-                        loading.classList.add('hidden');
-                        window.location.href = data.url; // Tải trực tiếp file về máy
-                        success = true;
-                        break;
-                    } else if (data.picker && data.picker.length > 0) {
-                        loading.classList.add('hidden');
-                        window.location.href = data.picker[0].url;
-                        success = true;
-                        break;
-                    }
-                } catch (err) {
-                    console.warn(`Endpoint ${endpoint} failed, trying next...`);
-                }
-            }
-
-            // Phương án dự phòng 100% nếu tất cả API CORS công cộng bị quá tải
-            if (!success) {
-                loading.classList.add('hidden');
-                const fallbackUrl = `https://cobalt.tools/?url=${encodeURIComponent(mediaUrl)}`;
-                window.open(fallbackUrl, '_blank');
-            }
+            // Gọi đến Backend API Vercel tương đối (/api/download)
+            const downloadEndpoint = `/api/download?url=${encodeURIComponent(mediaUrl)}&format=${format}`;
+            
+            // Tự động kích hoạt tải xuống trực tiếp trên trình duyệt
+            window.location.href = downloadEndpoint;
         }
     </script>
 </body>
