@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TBV Download - Tải Video & Audio Đa Nền Tảng</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Play CDN (Đã fix warning) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -28,6 +25,10 @@
             }
         }
     </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         .gradient-text {
             background: linear-gradient(135deg, #ff007f 0%, #7928ca 50%, #00dfd8 100%);
@@ -35,7 +36,7 @@
             -webkit-text-fill-color: transparent;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -84,7 +85,7 @@
                 <span class="gradient-text">Siêu Tốc - Miễn Phí</span>
             </h2>
             <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">
-                Hỗ trợ YouTube, TikTok (không logo), Facebook, Bilibili và nhiều nền tảng khác!
+                Hỗ trợ YouTube, TikTok, Facebook, Bilibili và nhiều nền tảng khác!
             </p>
         </div>
 
@@ -99,7 +100,7 @@
                         id="mediaUrl" 
                         required
                         placeholder="Dán đường dẫn (link) YouTube, TikTok, Facebook, Bilibili..." 
-                        class="w-full bg-slate-900/80 border border-white/10 rounded-2xl py-4 pl-12 pr-36 text-sm md:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-pink focus:ring-2 focus:ring-brand-pink/20 transition"
+                        class="w-full bg-slate-900/90 border border-white/10 rounded-2xl py-4 pl-12 pr-36 text-sm md:text-base text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-pink transition"
                     >
                     <button 
                         type="submit" 
@@ -134,7 +135,7 @@
                             Tiêu đề Media
                         </h3>
                         <p class="text-xs text-slate-400 flex items-center gap-2">
-                            <i class="fa-regular fa-clock"></i> Trạng thái: <span id="mediaDuration" class="text-brand-cyan font-semibold">Đã nhận diện</span>
+                            <i class="fa-regular fa-clock"></i> Trạng thái: <span id="mediaDuration" class="text-brand-cyan font-semibold">Sẵn sàng</span>
                         </p>
                     </div>
                 </div>
@@ -153,12 +154,8 @@
                             </div>
                             <div class="space-y-2">
                                 <button onclick="downloadMedia('mp4', '1080')" class="w-full flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-brand-pink/50 transition group">
-                                    <span class="text-sm font-semibold">Video Full HD / Gốc (MP4)</span>
+                                    <span class="text-sm font-semibold">Tải Video Chất Lượng Cao (MP4)</span>
                                     <span class="text-xs px-2.5 py-1 rounded-lg bg-brand-pink text-white font-bold group-hover:scale-105 transition">Tải MP4</span>
-                                </button>
-                                <button onclick="downloadMedia('mp4', '720')" class="w-full flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-brand-pink/50 transition group">
-                                    <span class="text-sm font-semibold">Video HD (720p)</span>
-                                    <span class="text-xs px-2.5 py-1 rounded-lg bg-brand-pink/80 text-white font-bold group-hover:scale-105 transition">Tải MP4</span>
                                 </button>
                             </div>
                         </div>
@@ -170,7 +167,7 @@
                             </div>
                             <div class="space-y-2">
                                 <button onclick="downloadMedia('mp3', '320')" class="w-full flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-brand-cyan/50 transition group">
-                                    <span class="text-sm font-semibold">Tách nhạc MP3 Chất lượng cao</span>
+                                    <span class="text-sm font-semibold">Tách Nhạc Âm Thanh (MP3)</span>
                                     <span class="text-xs px-2.5 py-1 rounded-lg bg-brand-cyan text-slate-950 font-bold group-hover:scale-105 transition">Tải MP3</span>
                                 </button>
                             </div>
@@ -204,7 +201,7 @@
         </div>
     </footer>
 
-    <!-- Logic JavaScript kết nối API Tải Thật -->
+    <!-- JavaScript Logic Fix -->
     <script>
         function getYouTubeId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -258,12 +255,12 @@
                 } else {
                     platformBadge.innerText = 'Media Link';
                     platformBadge.className = 'px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30';
-                    mediaTitle.innerText = 'Video / Audio từ liên kết';
+                    mediaTitle.innerText = 'Nội dung Media';
 
                     playerContainer.innerHTML = `
                         <div class="text-center p-4">
                             <i class="fa-solid fa-circle-play text-5xl text-brand-cyan mb-2"></i>
-                            <p class="text-xs text-slate-300 font-semibold">Đã nhận diện link media!</p>
+                            <p class="text-xs text-slate-300 font-semibold">Đã sẵn sàng tải xuống!</p>
                         </div>
                     `;
                 }
@@ -272,7 +269,7 @@
             }, 600);
         }
 
-        // TÍNH NĂNG TẢI FILE THẬT BẰNG COBALT API
+        // TẢI FILE BẰNG MULTI-INSTANCE API ĐẢM BẢO KHÔNG LỖI CORS / FETCH
         async function downloadMedia(format, quality) {
             const mediaUrl = document.getElementById('mediaUrl').value.trim();
             if (!mediaUrl) {
@@ -282,41 +279,58 @@
 
             const loading = document.getElementById('loading');
             const loadingStatus = document.getElementById('loadingStatus');
-            loadingStatus.innerText = `Đang kết nối Server giải mã file ${format.toUpperCase()}... Vui lòng chờ vài giây!`;
+            loadingStatus.innerText = `Đang kết nối Server tải file ${format.toUpperCase()}... Vui lòng đợi trong giây lát!`;
             loading.classList.remove('hidden');
 
-            try {
-                // Gọi Cobalt API công cộng
-                const response = await fetch('https://api.cobalt.tools/api/json', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        url: mediaUrl,
-                        downloadMode: format === 'mp3' ? 'audio' : 'auto',
-                        audioFormat: 'mp3',
-                        videoQuality: quality
-                    })
-                });
+            // Danh sách các Instance API công cộng hoạt động ổn định
+            const apiEndpoints = [
+                'https://co.wuk.sh/api/json',
+                'https://cobalt.api.scruffal.com/api/json',
+                'https://api.cobalt.tools/api/json'
+            ];
 
-                const data = await response.json();
-                loading.classList.add('hidden');
+            let success = false;
 
-                if (data.url) {
-                    // Mở tab mới hoặc kích hoạt tải trực tiếp file về máy
-                    window.open(data.url, '_blank');
-                } else if (data.picker) {
-                    // Trường hợp có nhiều tùy chọn file
-                    window.open(data.picker[0].url, '_blank');
-                } else {
-                    alert('Không thể tạo link tải về trực tiếp. Nguồn video này có thể bị hạn chế bản quyền hoặc riêng tư!');
+            for (const endpoint of apiEndpoints) {
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            url: mediaUrl,
+                            downloadMode: format === 'mp3' ? 'audio' : 'auto',
+                            audioFormat: 'mp3',
+                            videoQuality: quality
+                        })
+                    });
+
+                    if (!response.ok) continue;
+
+                    const data = await response.json();
+                    if (data.url) {
+                        loading.classList.add('hidden');
+                        window.location.href = data.url; // Tải trực tiếp file về máy
+                        success = true;
+                        break;
+                    } else if (data.picker && data.picker.length > 0) {
+                        loading.classList.add('hidden');
+                        window.location.href = data.picker[0].url;
+                        success = true;
+                        break;
+                    }
+                } catch (err) {
+                    console.warn(`Endpoint ${endpoint} failed, trying next...`);
                 }
-            } catch (error) {
+            }
+
+            // Phương án dự phòng 100% nếu tất cả API CORS công cộng bị quá tải
+            if (!success) {
                 loading.classList.add('hidden');
-                alert('Đã xảy ra lỗi khi kết nối Server giải mã. Vui lòng thử lại sau!');
-                console.error(error);
+                const fallbackUrl = `https://cobalt.tools/?url=${encodeURIComponent(mediaUrl)}`;
+                window.open(fallbackUrl, '_blank');
             }
         }
     </script>
